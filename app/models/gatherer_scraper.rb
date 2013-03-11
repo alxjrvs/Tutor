@@ -1,0 +1,2 @@
+class GathererScraper
+end
