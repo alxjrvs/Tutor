@@ -1,3 +1,3 @@
 class Block < ActiveRecord::Base
-  # attr_accessible :title, :body
+  has_many :releases
 end

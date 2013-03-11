@@ -1,9 +1,9 @@
-class RowIntoCardDigester
+class TableIntoCardDigester
   attr_accessor :card_cache, :temporary_card_cache
-  attr_reader :row, :set
+  attr_reader :doc, :set
 
-  def initialize(row, set)
-    @row = row
+  def initialize(doc, set)
+    @doc = doc
     @set = set
   end
 
@@ -19,7 +19,7 @@ class RowIntoCardDigester
     "#{/(\w*)/.match(card_cache[:name]).to_s}\n#{card_cache[:cost]}\n#{card_cache[:card_type]}\n#{card_cache[:rules]}\n#{card_cache[:pow_tgh]} "
   end
 
-  def rarity_sort(set_name, string)
+  def rarity_sort(string)
     rarity = ''
     string.strip.split(",").each do |x|
       rarity  =x.gsub(set.name, '').strip if x.include? set.name
@@ -67,7 +67,8 @@ class RowIntoCardDigester
   end
 
 
-  def self.transform_check
+  def transform_check
+    binding.pry
     if temporary_card_cache
       if card_cache[:cost] == ''
         temporary_card_cache[:rules] = "#{@b[:rules]}\n-----\n#{card_cache[:name]}\n#{card_cache[:card_type]}\n#{@a[:rules]}\n#{@a[:pow_tgh]}"
@@ -84,45 +85,49 @@ class RowIntoCardDigester
         temporary_card_cache = nil
       end
     end
+    binding.pry
     if card_cache[:rules].include? "transform" or card_cache[:rules].include? "Transform"
       temporary_card_cache = card_cache
       card_cache = {}
     end
   end
 
-  def power_toughness_seperator(pt)
+  def power_toughness_seperator(row, pt)
     row.at_xpath('td[2]').text.strip.gsub("[()]", '').split("/")
   end
 
   def digest
-    if row.at_xpath('td[2]')
-      case row.at_xpath('td[1]').text.strip
-      when "Name:"
-       card_cache.merge!({ name: row.at_xpath('td[2]').text.strip })
-        @split = true if card_cache[:name].include? '//'
-      when "Cost:"
-       card_cache.merge!({ cost: row.at_xpath('td[2]').text.strip.upcase })
-      when "Type:"
-        card_cache.merge!({ card_type: row.at_xpath('td[2]').text.strip })
-      when "Rules Text:"
-        card_cache.merge!({ rules: row.at_xpath('td[2]').text.strip.gsub(/\r/," ")  })
-      when "Flavor Text:"
-        card_cache.merge!({ flavor: row.at_xpath('td[2]').text.strip })
-      when "Illus."
-        card_cache.merge!({ illustrator: row.at_xpath('td[2]').text.strip })
-      when "Pow/Tgh:"
-        card_cache.merge! ({power: power_toughness_seperator('td[2]')[0]})
-        card_cache.merge! ({toughness: power_toughness_seperator('td[2]')[1]})
-      when "Set/Rarity:"
-          card_cache.merge!({ rarity: rarity_sort(set_name, row.at_xpath('td[2]').text) })
-          flip_check  if set_name.include? "Kamigawa"
-          split_check if @split
-          transform_check if short_name == "ISD" or short_name == "DKA"
-          card.update_attributes(:rarity => "Token") if card.name.include? "token card"
-          card = Card.create card_cache
-          card_cache = {}
-          set.cards << card
-        p "#{card.name } saved to #{card.release.name}"
+    doc.each do |row|
+      if row.at_xpath('td[2]')
+        case row.at_xpath('td[1]').text.strip
+        when "Name:"
+         card_cache.merge!({ name: row.at_xpath('td[2]').text.strip })
+          @split = true if card_cache[:name].include? '//'
+        when "Cost:"
+         card_cache.merge!({ cost: row.at_xpath('td[2]').text.strip.upcase })
+        when "Type:"
+          card_cache.merge!({ card_type: row.at_xpath('td[2]').text.strip })
+        when "Rules Text:"
+          card_cache.merge!({rules: row.at_xpath('td[2]').text.strip.gsub(/\r/," ")  })
+        when "Flavor Text:"
+          card_cache.merge!({ flavor: row.at_xpath('td[2]').text.strip })
+        when "Illus."
+          card_cache.merge!({ illustrator: row.at_xpath('td[2]').text.strip })
+        when "Pow/Tgh:"
+          card_cache.merge!({power: power_toughness_seperator(row, 'td[2]')[0]})
+          card_cache.merge!({toughness: power_toughness_seperator(row, 'td[2]')[1]})
+        when "Set/Rarity:"
+            card_cache.merge!({ rarity: rarity_sort(row.at_xpath('td[2]').text) })
+            flip_check  if set.name.include? "Kamigawa"
+            split_check if @split
+            transform_check if set.short_name == "ISD" or set.short_name == "DKA"
+            puts "Making a card...."
+            card = Card.create card_cache
+            card.update_attributes(:rarity => "Token") if card.name.include? "token card"
+            card_cache = {}
+            set.cards << card
+          p "#{card.name } saved to #{card.release.name}"
+        end
       end
     end
   end

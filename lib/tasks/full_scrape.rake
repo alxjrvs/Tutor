@@ -79,7 +79,7 @@ task :scrape => :environment do
   ["Unglued", "UGL"]
   ]
   sets_list.each do |set|
-    GathererSetScraper.scrape(set[0], set[1], set[2])
+    GathererSetScraper.new(set[0], set[1], set[2]).scrape
     p "#{set[0]} Scraped"
     p "Mythics Engaged!" if set[2]
   end

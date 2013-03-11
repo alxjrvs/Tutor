@@ -1,5 +1,5 @@
 class GathererSetScraper
-  attr_writer :set_table_html, :name, :short_name, :mythicable
+  attr_accessor :set_table_html, :name, :short_name, :mythicable
 
   def initialize(name, short_name, mythicable = false)
     @name = name
@@ -21,13 +21,11 @@ class GathererSetScraper
 
 
   def set_table_html
-    @set_table_html ||= Nokogiri::HTML(open(set_url))
+    @set_table_html ||= Nokogiri::HTML(open(set_url)).search('table > tr')
   end
 
   def scrape
-    set_table_html.search('table > tr').each do |row|
-      RowIntoCardDigester.new(row, set).digest
-    end
+    TableIntoCardDigester.new(set_table_html, set).digest
   end
 
 end

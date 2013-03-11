@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(:version => 20130311013559) do
     t.string   "name"
     t.string   "short_name"
     t.string   "tagline"
+    t.boolean  "mythicable"
     t.date     "release_date"
     t.integer  "block_id"
     t.datetime "created_at",   :null => false
