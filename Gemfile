@@ -15,6 +15,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'nokogiri'
   gem 'minitest-rails'
   gem 'factory_girl_rails', '~> 3.3.0'
   gem 'minitest-rails-capybara'
@@ -32,11 +33,10 @@ group :production do
   gem 'sendgrid'
 end
 
+gem 'mechanize_clip','~> 0.1.3'
+gem 'mechanize'
 gem 'fog'
 gem 'thin'
-gem 'mechanize_clip','~> 0.1.3'
-gem 'nokogiri'
-gem 'mechanize'
 gem 'paperclip'
 gem 'aws-sdk'
 gem 'strong_parameters'
