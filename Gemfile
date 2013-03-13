@@ -11,18 +11,20 @@ group :development do
   gem "better_errors"
   gem "binding_of_caller"
   gem 'meta_request', '0.1.3'
+  gem 'pry'
   gem 'pry-rails'
 end
 
 group :development, :test do
   gem 'nokogiri'
-  gem 'minitest-rails'
-  gem 'factory_girl_rails', '~> 3.3.0'
-  gem 'minitest-rails-capybara'
   gem "random-word"
 end
 
 group :test do
+  gem 'minitest-rails'
+  gem 'factory_girl_rails', '~> 3.3.0'
+  gem 'minitest-rails-capybara'
+  gem 'minitest-spec-context'
   gem 'faker', "~> 1.0.1"
   gem 'database_cleaner', "~> 0.7.2"
   gem 'capybara', "~> 1.1.2"
