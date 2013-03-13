@@ -13,6 +13,9 @@ group :development do
   gem 'meta_request', '0.1.3'
   gem 'pry'
   gem 'pry-rails'
+  gem 'minitest-rails'
+  gem 'factory_girl_rails', '~> 3.3.0'
+  gem 'minitest-rails-capybara'
 end
 
 group :development, :test do
@@ -21,10 +24,6 @@ group :development, :test do
 end
 
 group :test do
-  gem 'minitest-rails'
-  gem 'factory_girl_rails', '~> 3.3.0'
-  gem 'minitest-rails-capybara'
-  gem 'minitest-spec-context'
   gem 'faker', "~> 1.0.1"
   gem 'database_cleaner', "~> 0.7.2"
   gem 'capybara', "~> 1.1.2"

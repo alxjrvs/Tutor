@@ -1,4 +1,5 @@
 require "minitest_helper"
+require 'minitest/autorun'
 
 describe CastingCostDigester do
 
@@ -16,7 +17,7 @@ describe CastingCostDigester do
     @free = CastingCostDigester.new("0")
   end
 
-  context "#color" do
+  describe "#color" do
     it "should digest a monocolored casting cost into a color array" do
       @mono.color.must_equal ["Blue"]
     end
@@ -37,7 +38,7 @@ describe CastingCostDigester do
     end
   end
 
-  context "#is_colorless" do
+  describe "#is_colorless" do
     it "should return true for colorless cards" do
       @colorless.is_colorless?.must_equal true
       @free.is_colorless?.must_equal true
@@ -52,7 +53,7 @@ describe CastingCostDigester do
     end
   end
 
-  context "#is_monocolor?" do
+  describe "#is_monocolor?" do
     it "should return true for monocolored cards" do
       @mono.is_monocolor?.must_equal true
       @expensive.is_monocolor?.must_equal true
@@ -64,14 +65,14 @@ describe CastingCostDigester do
     end
   end
 
-  context "#cost_array" do
+  describe "#cost_array" do
     it "should not break up double-digit colorless mana costs" do
       @expensive.cost_array.must_equal ["15", "U"]
       @colorless.cost_array.must_equal ["15"]
     end
   end
 
-  context "#is_multicolor?" do
+  describe "#is_multicolor?" do
     it "should return false for monocolored and colorless cards" do
       @mono.is_multicolor?.must_equal false
       @phyrexian.is_multicolor?.must_equal false
@@ -87,7 +88,7 @@ describe CastingCostDigester do
 
   end
 
-  context "#converted_mana_cost" do
+  describe "#converted_mana_cost" do
     it "should digest mana symbols correctly" do
       @mono.converted_mana_cost.must_equal 3
       @multi.converted_mana_cost.must_equal 6

@@ -1,7 +1,7 @@
 require "minitest_helper"
 
 describe ApplicationHelper do
-  context "#color_sort" do
+  describe "#color_sort" do
     it "should correctly sort an array of colors" do
       color_sort(["Red", "Green", "White"]).must_equal ["White", "Red", "Green"]
       color_sort(["White"]).must_equal ["White"]
