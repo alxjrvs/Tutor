@@ -1,10 +1,9 @@
 class GathererSetScraper
   attr_accessor :set_table_html, :name, :short_name, :mythicable
 
-  def initialize(name, short_name, mythicable = false)
+  def initialize(name, short_name)
     @name = name
     @short_name = short_name
-    @mythicable = mythicable
   end
 
   def url_safe_name
@@ -12,20 +11,22 @@ class GathererSetScraper
   end
 
   def set_url
-    "http://gatherer.wizards.com/Pages/Search/Default.aspx?sort=cn+&output=spoiler&method=text&set=[%22#{url_safe_name}%22]"
+    "http://gatherer.wizards.com/Pages/Search/Default.aspx?output=checklist&action=advanced&set=%5b%22#{url_safe_name}%22%5d"
   end
 
   def set
-    @set ||= Release.create(name: name, short_name: short_name, mythicable: mythicable)
+    @set ||= Release.first_or_create(name: name, short_name: short_name)
   end
 
 
   def set_table_html
-    @set_table_html ||= Nokogiri::HTML(open(set_url)).search('table > tr')
+    @set_table_html ||= Nokogiri::HTML(open(set_url)).search('tr.cardItem')
   end
 
   def scrape
-    TableIntoCardDigester.new(set_table_html, set).digest
+    set_table_html.each do |row|
+      link = row.search('a.nameLink').first['href'].gsub("..", "")
+      CardDigester.new(link, set).digest
+    end
   end
-
 end
