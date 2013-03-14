@@ -15,9 +15,15 @@ describe CastingCostDigester do
 
     @colorless = CastingCostDigester.new("15")
     @free = CastingCostDigester.new("0")
+
+    @pact = CastingCostDigester.new("0", "U")
   end
 
   describe "#color" do
+    it "should return color indicator when given" do
+      @pact.color.must_equal ["Blue"]
+    end
+
     it "should digest a monocolored casting cost into a color array" do
       @mono.color.must_equal ["Blue"]
     end
@@ -89,6 +95,11 @@ describe CastingCostDigester do
   end
 
   describe "#converted_mana_cost" do
+    it "should return 0 for free spells" do
+      @pact.converted_mana_cost.must_equal 0
+      @free.converted_mana_cost.must_equal 0
+    end
+
     it "should digest mana symbols correctly" do
       @mono.converted_mana_cost.must_equal 3
       @multi.converted_mana_cost.must_equal 6

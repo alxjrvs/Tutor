@@ -20,7 +20,14 @@ class CardDigester
   end
 
   def digest
+
     if card_box.size >= 2
+      puts "transform/Split"
+    elsif card_box.search("ul > li > a").empty? == false
+      puts "split"
+    else
+      puts "normal"
     end
+
   end
 end

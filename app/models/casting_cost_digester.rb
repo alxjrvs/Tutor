@@ -9,15 +9,11 @@ class CastingCostDigester
     "G" => "Green"
   }
 
-  attr_reader :cost
+  attr_reader :cost, :color_indicator
 
-  def initialize(cost)
+  def initialize(cost, color_indicator = nil)
     @cost = cost
-  end
-
-
-  def cost_array
-    @cost_array ||= calculate_cost_array
+    @color_indicator = color_indicator
   end
 
   def color
@@ -31,6 +27,10 @@ class CastingCostDigester
   def is_monocolor?
     return false if color == ["Colorless"]
     color.count  == 1 ? true : false
+  end
+
+  def cost_array
+    @cost_array ||= calculate_cost_array
   end
 
   def is_multicolor?
@@ -59,7 +59,9 @@ class CastingCostDigester
 
   private
 
+
   def set_color
+    return [COLOR_HASH[color_indicator]] if color_indicator
    initial_color_array = color_sort(cost_array.map {|m| m.split "/"}.flatten.map {|m| COLOR_HASH[m]}.compact.uniq)
    initial_color_array.empty? ? ["Colorless"] : initial_color_array
   end
