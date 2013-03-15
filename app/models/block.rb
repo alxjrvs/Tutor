@@ -1,3 +1,3 @@
 class Block < ActiveRecord::Base
-  has_many :releases
+  has_many :expansions
 end

@@ -13,7 +13,7 @@ class CastingCostDigester
 
   def initialize(cost, color_indicator = nil)
     @cost = cost
-    @color_indicator = color_indicator
+    @color_indicator = color_indicator unless color_indicator.blank?
   end
 
   def color

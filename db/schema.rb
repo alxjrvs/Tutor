@@ -24,18 +24,24 @@ ActiveRecord::Schema.define(:version => 20130311013559) do
     t.string   "cost"
     t.string   "power"
     t.string   "toughness"
-    t.text     "card_type"
-    t.text     "rules"
-    t.text     "flavor"
+    t.text     "super_types",                       :array => true
+    t.text     "sub_type",                          :array => true
+    t.text     "card_types",                        :array => true
+    t.string   "colors",                            :array => true
+    t.string   "color_indentifier",                 :array => true
+    t.text     "card_text"
+    t.text     "reminder_text"
+    t.text     "flavor_text"
     t.string   "illustrator"
     t.string   "rarity"
-    t.string   "set_no"
-    t.integer  "release_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "card_number"
+    t.integer  "multiverse_number"
+    t.integer  "expansion_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
-  create_table "releases", :force => true do |t|
+  create_table "expansions", :force => true do |t|
     t.string   "name"
     t.string   "short_name"
     t.string   "tagline"

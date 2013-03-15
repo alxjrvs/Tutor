@@ -34,6 +34,7 @@ group :production do
   gem 'sendgrid'
 end
 
+gem 'postgres_ext'
 gem 'mechanize_clip','~> 0.1.3'
 gem 'mechanize'
 gem 'fog'

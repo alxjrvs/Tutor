@@ -7,5 +7,5 @@ class Card < ActiveRecord::Base
   "M" => "Mythic Rare",
   }
 
-  belongs_to :release
+  belongs_to :expansion
 end

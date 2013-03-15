@@ -1,4 +1,4 @@
-class Release < ActiveRecord::Base
+class Expansion < ActiveRecord::Base
   has_many :cards
   belongs_to :block
 end

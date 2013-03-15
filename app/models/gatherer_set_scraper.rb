@@ -15,7 +15,7 @@ class GathererSetScraper
   end
 
   def set
-    @set ||= Release.first_or_create(name: name, short_name: short_name)
+    @set ||= Expansion.first_or_create(name: name, short_name: short_name)
   end
 
 
@@ -26,7 +26,7 @@ class GathererSetScraper
   def scrape
     set_table_html.each do |row|
       link = row.search('a.nameLink').first['href'].gsub("..", "")
-      CardDigester.new(link, set).digest
+      CardDigester.new(link).digest
     end
   end
 end

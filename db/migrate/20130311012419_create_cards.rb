@@ -5,14 +5,20 @@ class CreateCards < ActiveRecord::Migration
       t.string :cost
       t.string :power
       t.string :toughness
-      t.text :card_type
-      t.text   :rules
-      t.text   :flavor
+      t.text :super_types, array: true
+      t.text :sub_type, array: true
+      t.text :card_types, array: true
+      t.string :colors, array: true
+      t.string :color_indentifier, array: true
+      t.text   :card_text
+      t.text   :reminder_text
+      t.text   :flavor_text
       t.string :illustrator
       t.string :rarity
-      t.string :set_no
+      t.string :card_number
+      t.integer :multiverse_number
 
-      t.references :release
+      t.references :expansion
 
       t.timestamps
     end

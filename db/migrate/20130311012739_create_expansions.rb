@@ -1,6 +1,6 @@
-class CreateRelease < ActiveRecord::Migration
+class CreateExpansions < ActiveRecord::Migration
   def change
-    create_table :releases do |t|
+    create_table :expansions do |t|
       t.string :name
       t.string :short_name
       t.string :tagline
