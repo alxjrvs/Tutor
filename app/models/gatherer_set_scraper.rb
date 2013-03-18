@@ -26,7 +26,9 @@ class GathererSetScraper
   def scrape
     set_table_html.each do |row|
       link = row.search('a.nameLink').first['href'].gsub("..", "")
-      CardDigester.new(link).digest
+      card = CardDigester.new(link).digest
+      card.update_attributes(set: set)
+      puts card.name
     end
   end
 end

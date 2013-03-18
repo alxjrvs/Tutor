@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 class TypeLineDigester
-
   CARD_TYPES = %w(Artifact Creature Land Plane Planeswalker Scheme Sorcery Instant Tribal Vanguard)
   SUPER_TYPES = %w(Basic Snow Legendary World Ongoing)
 
@@ -30,14 +30,15 @@ class TypeLineDigester
   end
 
   def split_sub_types
-    split_on_dash.last.split(" ")
+    split_on_dash.last.split(" ").map {|m| m.strip}
   end
 
   def split_super_types
-    split_on_dash.first.split(" ")
+    split_on_dash.first.split(" ").map {|m| m.strip}
   end
 
   def split_on_dash
-    string.split('-')
+    #baddash = "—"
+    string.split("-")
   end
 end

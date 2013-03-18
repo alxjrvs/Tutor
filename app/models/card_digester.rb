@@ -1,14 +1,8 @@
 class CardDigester
+  include ApplicationHelper
+
   attr_accessor :card_cache, :temporary_card_cache
   attr_reader :link, :set
-
-  COLOR_HASH = {
-  "White" => "W",
-  "Blue" => "U",
-  "Black" => "B",
-  "Red" => "R",
-  "Green" => "G"
-  }
 
   def initialize(link)
     @link = link
@@ -30,14 +24,10 @@ class CardDigester
     string.split("/")
   end
 
-
   def mana_cost_seperator(html)
     xpath_search(html, "manaRow").children[3].children.map do |line|
-      if COLOR_HASH.keys.include? line.attributes["alt"].try(&:value)
-      COLOR_HASH[line.attributes["alt"].try(&:value)]
-      else
-        line.attributes["alt"].try(&:value)
-      end
+      next unless line.attributes["alt"]
+      cost_digester(line.attributes["alt"].value)
     end.join('')
   end
 
@@ -46,12 +36,15 @@ class CardDigester
   end
 
   def card_into_create_hash(html)
-    binding.pry
-    type_row = TypeLineDigester.new(xpath_search(html, "typeRow".text.gsub("Types:", "").strip))
-    power_toughness_array = power_toughness_seperator(xpath_Search(html, "ptRow").text)
-    color_indentifier = xpath_search(html, "colorIdentifierRow").text
-
-    cost = mana_cost_seperator(html)
+    type_row = TypeLineDigester.new(xpath_search(html, "typeRow").text.gsub("Types:", "").strip)
+    unless xpath_search(html, 'ptRow').empty?
+       power_toughness_array = power_toughness_seperator(xpath_search(html, "ptRow").text.split(":")[1].strip)
+    else
+      power_toughness_array = []
+    end
+    color_identifier = xpath_search(html, "colorIdentifierRow").text
+    card_text = CardTextDigester.new(xpath_search(html, 'textRow'))
+    cost = mana_cost_seperator(xpath_search(html, 'manaRow'))
     {
     name: xpath_search(html, "nameRow").children[3].text.strip,
     power: power_toughness_array[0],
@@ -60,26 +53,25 @@ class CardDigester
     super_types: type_row.super_types,
     sub_types: type_row.sub_types,
     card_types: type_row.types,
-    colors: CastingCostDigester.new(cost, color_indentifier).color,
-    color_indentifier: color_indentifier,
-    card_text: '' ,
-    reminder_text: "",
-    flavor_text: "",
-    illustrator: "",
-    rarity: "",
-    card_number: "",
-    multiverse_number: "",
+    colors: CastingCostDigester.new(cost, color_identifier).color,
+    color_identifier: color_identifier,
+    raw_text: card_text.raw_text,
+    card_text: card_text.card_text,
+    rules_text: card_text.rules_text,
+    flavor_text: xpath_search(html, 'flavorRow').text.split(":")[1].strip,
+    illustrator: xpath_search(html, 'artistRow').text.split(":")[1].strip,
+    rarity: xpath_search(html, 'rarityRow').text.split(":")[1].strip,
+    card_number: xpath_search(html, 'numberRow').text.split(":")[1].strip,
+    multiverse_number: multiverse_id,
     }
   end
-
   def digest
     if card_box.size >= 2
       puts "transform/Split"
     elsif card_box.search("ul > li > a").empty? == false
       puts "split"
-      binding.pry
     else
-      puts "normal"
+      Card.create card_into_create_hash(card_box)
     end
   end
 end
