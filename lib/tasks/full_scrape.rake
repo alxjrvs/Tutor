@@ -1,23 +1,23 @@
-task :scrape => :environment do
+task :full_scrape => :environment do
   sets_list = [
-  ["Gatecrash", "GTC", true],
-  ["Return to Ravnica", "RTR", true],
-  ["Magic 2013", "M13", true],
-  ["Avacyn Restored", "AVR", true],
-  ["Dark Ascension", "DKA", true],
-  ["Innistrad", "ISD", true],
-  ["Magic 2012", "M12", true],
-  ["New Phyrexia", "NPH", true],
-  ["Mirrodin Besieged", "MBS", true],
-  ["Scars of Mirrodin", "SOM", true],
-  ["Magic 2011", "M11", true],
-  ["Rise of the Eldrazi","ROE", true],
-  ["Worldwake","WWK", true],
-  ["Zendikar","ZEN", true],
-  ["Magic 2010", "M10", true],
-  ["Alara Reborn","ARB", true],
-  ["Conflux","CON", true],
-  ["Shards of Alara","ALA", true],
+  ["Gatecrash", "GTC"],
+  ["Return to Ravnica", "RTR"],
+  ["Magic 2013", "M13"],
+  ["Avacyn Restored", "AVR"],
+  ["Dark Ascension", "DKA"],
+  ["Innistrad", "ISD"],
+  ["Magic 2012", "M12"],
+  ["New Phyrexia", "NPH"],
+  ["Mirrodin Besieged", "MBS"],
+  ["Scars of Mirrodin", "SOM"],
+  ["Magic 2011", "M11"],
+  ["Rise of the Eldrazi","ROE"],
+  ["Worldwake","WWK"],
+  ["Zendikar","ZEN"],
+  ["Magic 2010", "M10"],
+  ["Alara Reborn","ARB"],
+  ["Conflux","CON"],
+  ["Shards of Alara","ALA"],
   ["Eventide", "EVE"],
   ["Shadowmoor", "SHM"],
   ["Morningtide", "MOR"],
@@ -73,15 +73,11 @@ task :scrape => :environment do
   ["Antiquities", "ATQ"],
   ["Arabian Nights", "ARN"],
   ["Unlimited Edition", "2ED"],
-
-
   ["Unhinged", "UNH"],
   ["Unglued", "UGL"]
   ]
   sets_list.each do |set|
-    GathererSetScraper.new(set[0], set[1], set[2]).scrape
+    GathererSetScraper.new(set[0], set[1]).scrape
     p "#{set[0]} Scraped"
-    p "Mythics Engaged!" if set[2]
   end
-
 end

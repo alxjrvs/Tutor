@@ -61,14 +61,14 @@ class CastingCostDigester
 
 
   def set_color
-    return [COLOR_HASH[color_indicator]] if color_indicator
-   initial_color_array = color_sort(cost_array.map {|m| m.split "/"}.flatten.map {|m| COLOR_HASH[m]}.compact.uniq)
-   initial_color_array.empty? ? ["Colorless"] : initial_color_array
+    return color_indicator if color_indicator
+    initial_color_array = color_sort(cost_array.map {|m| m.split "/"}.flatten.map {|m| COLOR_HASH[m]}.compact.uniq)
+    initial_color_array.empty? ? ["Colorless"] : initial_color_array
   end
 
   def calculate_cost_array
     colorless_mana = cost.split(/\D/)[0].to_s
-    colored_mana = cost.gsub(colorless_mana, "")
+    colored_mana = cost.gsub(colorless_mana, "").gsub("|", "")
     colored_mana = if colored_mana.include? "/"
       colored_mana.split("|").map do |sub|
         sub.include?("/") ? sub : sub.split("")

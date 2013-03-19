@@ -6,13 +6,15 @@ class CreateCards < ActiveRecord::Migration
       t.string :power
       t.string :toughness
       t.text :super_types, array: true
-      t.text :sub_type, array: true
+      t.text :sub_types, array: true
       t.text :card_types, array: true
       t.string :colors, array: true
-      t.string :color_indentifier, array: true
+      t.string :color_indicator, array: true
+      t.text   :raw_text
       t.text   :card_text
-      t.text   :reminder_text
+      t.text   :rules_text
       t.text   :flavor_text
+      t.text   :watermark
       t.string :illustrator
       t.string :rarity
       t.string :card_number

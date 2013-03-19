@@ -14,10 +14,16 @@ module ApplicationHelper
   end
 
   def cost_digester(string)
-      if string.to_i != 0 || string == "Variable Colorless"
-        string
+      if string.to_i != 0
+        "|#{string}|"
       elsif COLOR_HASH.keys.include? string
-      COLOR_HASH[string]
+        "|#{COLOR_HASH[string]}|"
+      elsif string == "Tap"
+        "|T|"
+      elsif string == "Variable Colorless"
+        "|X|"
+      elsif string == "Untap"
+        "|UT|"
       elsif string.include? "or"
         multi_color_translator(string)
       elsif string.include? "Phyrexian"

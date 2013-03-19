@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class TypeLineDigester
-  CARD_TYPES = %w(Artifact Creature Land Plane Planeswalker Scheme Sorcery Instant Tribal Vanguard)
+  CARD_TYPES = %w(Artifact Creature Land Plane Planeswalker Scheme Sorcery Instant Tribal Vanguard Enchantment)
   SUPER_TYPES = %w(Basic Snow Legendary World Ongoing)
 
   attr_reader :string
@@ -30,6 +30,7 @@ class TypeLineDigester
   end
 
   def split_sub_types
+    return nil if split_on_dash.size == 1
     split_on_dash.last.split(" ").map {|m| m.strip}
   end
 
@@ -38,7 +39,13 @@ class TypeLineDigester
   end
 
   def split_on_dash
-    #baddash = "—"
-    string.split("-")
+    baddash = "—"
+    if string.include? "-"
+      string.split("-")
+    elsif string.include?(baddash)
+      string.split(baddash)
+    else
+      [string.strip]
+    end
   end
 end

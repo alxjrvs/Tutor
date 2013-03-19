@@ -14,8 +14,8 @@ class GathererSetScraper
     "http://gatherer.wizards.com/Pages/Search/Default.aspx?output=checklist&action=advanced&set=%5b%22#{url_safe_name}%22%5d"
   end
 
-  def set
-    @set ||= Expansion.first_or_create(name: name, short_name: short_name)
+  def expansion
+    @expansion ||= Expansion.where(name: name, short_name: short_name).first_or_create
   end
 
 
@@ -24,11 +24,9 @@ class GathererSetScraper
   end
 
   def scrape
-    set_table_html.each do |row|
+    set_table_html.map do |row|
       link = row.search('a.nameLink').first['href'].gsub("..", "")
-      card = CardDigester.new(link).digest
-      card.update_attributes(set: set)
-      puts card.name
+      CardDigester.new(link, expansion).digest
     end
   end
 end
