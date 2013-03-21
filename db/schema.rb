@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130311013559) do
+ActiveRecord::Schema.define(:version => 20130321145111) do
 
   create_table "blocks", :force => true do |t|
     t.string   "name"
@@ -24,23 +24,15 @@ ActiveRecord::Schema.define(:version => 20130311013559) do
     t.string   "cost"
     t.string   "power"
     t.string   "toughness"
-    t.text     "super_types",                       :array => true
-    t.text     "sub_types",                         :array => true
-    t.text     "card_types",                        :array => true
-    t.string   "colors",                            :array => true
-    t.string   "color_indicator",                   :array => true
-    t.text     "raw_text"
+    t.text     "super_types",                     :array => true
+    t.text     "sub_types",                       :array => true
+    t.text     "card_types",                      :array => true
+    t.string   "colors",                          :array => true
+    t.string   "color_indicator",                 :array => true
     t.text     "card_text"
-    t.text     "rules_text"
-    t.text     "flavor_text"
-    t.text     "watermark"
-    t.string   "illustrator"
-    t.string   "rarity"
-    t.string   "card_number"
-    t.integer  "multiverse_number"
     t.integer  "expansion_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "expansions", :force => true do |t|
@@ -52,6 +44,22 @@ ActiveRecord::Schema.define(:version => 20130311013559) do
     t.integer  "block_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "printings", :force => true do |t|
+    t.text     "raw_text"
+    t.text     "rules_text"
+    t.string   "name"
+    t.text     "flavor_text"
+    t.text     "watermark"
+    t.string   "illustrator"
+    t.string   "rarity"
+    t.string   "card_number"
+    t.integer  "multiverse_number"
+    t.integer  "card_id"
+    t.integer  "expansion_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
 end

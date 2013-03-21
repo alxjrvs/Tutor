@@ -10,15 +10,7 @@ class CreateCards < ActiveRecord::Migration
       t.text :card_types, array: true
       t.string :colors, array: true
       t.string :color_indicator, array: true
-      t.text   :raw_text
       t.text   :card_text
-      t.text   :rules_text
-      t.text   :flavor_text
-      t.text   :watermark
-      t.string :illustrator
-      t.string :rarity
-      t.string :card_number
-      t.integer :multiverse_number
 
       t.references :expansion
 

@@ -7,5 +7,7 @@ class Card < ActiveRecord::Base
   "M" => "Mythic Rare",
   }
 
-  belongs_to :expansion
+  has_many :printings
+  has_many :expansions, through: :printings
+
 end
