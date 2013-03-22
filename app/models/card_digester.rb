@@ -18,7 +18,7 @@ class CardDigester
   end
 
   def card_boxes
-    card_page_html.search('table.cardDetails').map {|c| CardBoxHasher.new(c, multiverse_id)}
+    @card_boxes ||= card_page_html.search('table.cardDetails').map {|c| CardBoxHasher.new(c, multiverse_id)}
   end
 
   def digest

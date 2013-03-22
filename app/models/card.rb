@@ -1,4 +1,5 @@
 class Card < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
 
   SIMPLE_RARITY_HASH = {
   "C" => "Common",
