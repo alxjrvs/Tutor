@@ -14,7 +14,9 @@ module ApplicationHelper
   end
 
   def cost_digester(string)
-      if string.to_i != 0
+      if string == "0"
+        "|0|"
+      elsif string.to_i != 0
         "|#{string}|"
       elsif COLOR_HASH.keys.include? string
         "|#{COLOR_HASH[string]}|"
