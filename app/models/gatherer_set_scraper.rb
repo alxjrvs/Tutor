@@ -15,19 +15,30 @@ class GathererSetScraper
   end
 
   def expansion
-    @expansion ||= Expansion.where(name: name, short_name: short_name).first_or_create
+    @expansion ||= Expansion.create(name: name, short_name: short_name)
   end
 
+  def expansion_exists?
+    Expansion.exists?(name: name, short_name: short_name)
+  end
 
   def set_table_html
     @set_table_html ||= Nokogiri::HTML(open(set_url)).search('tr.cardItem')
   end
 
   def scrape
-    set_table_html.each do |row|
-      link = row.search('a.nameLink').first['href'].gsub("..", "")
-      puts link
-      CardDigester.new(link, expansion).digest
+    unless expansion_exists?
+      Expansion.transaction do
+        set_table_html.each do |row|
+          link = row.search('a.nameLink').first['href'].gsub("..", "")
+          puts link
+          Card.transaction do
+            CardDigester.new(link, expansion).digest
+          end
+        end
+      end
+    else
+      puts "Already Downloaded that set!"
     end
   end
 end
