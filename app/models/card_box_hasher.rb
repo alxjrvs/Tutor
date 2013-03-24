@@ -8,6 +8,18 @@ class CardBoxHasher
     @multiverse_id = multiverse_id
   end
 
+  def is_split_card? 
+    if html.search(".//a[contains(@id, \"cardTextSwitchLink1\")]").empty?
+      false
+    else
+      true
+    end
+  end
+
+  def split_card_link
+    html.xpath("//ul/li/a[contains(text(), '//')]").first.attributes["href"].value.gsub('/Pages', '')
+  end
+
   def xpath_search(id)
     html.search(".//div[contains(@id, \"#{id}\")]")
   end
