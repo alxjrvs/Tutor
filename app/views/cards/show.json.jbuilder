@@ -6,6 +6,7 @@ json.sub_types @card.sub_types
 json.card_text @card.card_text
 json.colors @card.colors
 json.color_indicator @card.color_indicator
+json.color_indentity @card.color_identity
 json.power @card.power
 json.toughness @card.toughness
 

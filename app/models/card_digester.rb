@@ -31,7 +31,7 @@ class CardDigester
         CardDigester.new(card_box.split_card_link, expansion, true).digest
       end
       card = Card.where(card_box.card_hash).first_or_create
-      printing = Printing.where(card_box.printing_hash).first_or_create
+      printing = Printing.where(card_box.printing_hash.merge!(gatherer_url: link)).first_or_create
       printing.update_attributes(card_id: card.id, expansion_id: expansion.id)
       puts card.name
     end

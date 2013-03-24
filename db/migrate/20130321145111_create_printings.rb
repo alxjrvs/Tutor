@@ -9,6 +9,7 @@ class CreatePrintings < ActiveRecord::Migration
       t.string :illustrator
       t.string :rarity
       t.string :card_number
+      t.string :gatherer_url
       t.integer :multiverse_number
 
       t.references :card

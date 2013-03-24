@@ -11,4 +11,8 @@ class Card < ActiveRecord::Base
   has_many :printings
   has_many :expansions, through: :printings
 
+
+  def color_identity
+    ColorIdentityDigester.new(self).digest
+  end
 end

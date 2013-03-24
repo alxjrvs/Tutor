@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20130321145111) do
     t.string   "illustrator"
     t.string   "rarity"
     t.string   "card_number"
+    t.string   "gatherer_url"
     t.integer  "multiverse_number"
     t.integer  "card_id"
     t.integer  "expansion_id"

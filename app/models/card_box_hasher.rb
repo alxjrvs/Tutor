@@ -9,7 +9,7 @@ class CardBoxHasher
   end
 
   def is_split_card? 
-    if html.search(".//a[contains(@id, \"cardTextSwitchLink1\")]").empty?
+    if html.search("//ul/li/a[contains(text(), '//')]").empty?
       false
     else
       true

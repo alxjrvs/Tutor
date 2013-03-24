@@ -17,7 +17,7 @@ class CastingCostDigester
   end
 
   def color
-    @color ||= set_color
+    @color ||= color_sort(set_color)
   end
 
   def is_colorless?
@@ -61,9 +61,9 @@ class CastingCostDigester
 
 
   def set_color
-    return color_indicator if color_indicator
     initial_color_array = color_sort(cost_array.map {|m| m.split "/"}.flatten.map {|m| COLOR_HASH[m]}.compact.uniq)
-    initial_color_array.empty? ? ["Colorless"] : initial_color_array
+    color_array = ([initial_color_array] + [color_indicator]).flatten.compact.uniq
+    color_array.empty? ? ["Colorless"] : color_array
   end
 
   def calculate_cost_array
